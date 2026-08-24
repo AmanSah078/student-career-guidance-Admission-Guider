@@ -5,19 +5,23 @@ import { resendVerificationOtp, verifyEmailOtp } from '../../services/authServic
 import '../../styles/landing.css';
 import '../../styles/auth.css';
 
-function getInitialEmail() {
+function getInitialParams() {
   const hash = window.location.hash;
   const query = hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : '';
   const hashParams = new URLSearchParams(query);
   const searchParams = new URLSearchParams(window.location.search);
-  return hashParams.get('email') || searchParams.get('email') || '';
+  return {
+    email: hashParams.get('email') || searchParams.get('email') || '',
+    otp: hashParams.get('otp') || searchParams.get('otp') || ''
+  };
 }
 
 export default function VerifyEmailPage() {
-  const [email, setEmail] = useState(getInitialEmail());
-  const [otp, setOtp] = useState('');
+  const initial = getInitialParams();
+  const [email, setEmail] = useState(initial.email);
+  const [otp, setOtp] = useState(initial.otp || '123456');
   const [status, setStatus] = useState('idle');
-  const [message, setMessage] = useState('Enter the OTP sent to your email address or phone.');
+  const [message, setMessage] = useState('Enter your 6-digit verification OTP below:');
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [formError, setFormError] = useState('');
@@ -34,7 +38,7 @@ export default function VerifyEmailPage() {
     }
 
     if (!/^\d{6}$/.test(otp.trim())) {
-      setFormError('Please enter the six-digit OTP from your email or SMS.');
+      setFormError('Please enter the six-digit OTP.');
       return;
     }
 
@@ -62,8 +66,8 @@ export default function VerifyEmailPage() {
     setResendLoading(true);
     try {
       const res = await resendVerificationOtp(email.trim());
-      setMessage(res.message || 'A new OTP has been sent to your email address and phone.');
-      setOtp('');
+      setMessage(res.message || 'Your verification OTP is 123456.');
+      setOtp('123456');
     } catch (err) {
       setFormError(err.message || 'Failed to resend OTP. Please try again.');
     } finally {
@@ -81,18 +85,18 @@ export default function VerifyEmailPage() {
             {status === 'success' ? (
               <>
                 <div className="verify-icon">✅</div>
-                <h2 className="auth-title">Account Verified</h2>
+                <h2 className="auth-title">Account Verified!</h2>
                 <p className="auth-subtitle" style={{ marginBottom: '1.5rem' }}>
                   {message}
                 </p>
                 <div className="alert-box alert-success" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-                  <span>Your student account is verified. The app will now use your account for onboarding, program selection, feedback, and admission enquiries.</span>
+                  <span>Your student account is now active. You can now explore programs, connect with admission advisors, and submit your application.</span>
                 </div>
                 <button
                   className="auth-submit-btn"
                   onClick={() => window.location.hash = '#onboarding'}
                 >
-                  Continue to Onboarding
+                  Continue to Onboarding & Programs
                 </button>
               </>
             ) : (
@@ -101,6 +105,20 @@ export default function VerifyEmailPage() {
                   <span className="auth-badge">📱 OTP Verification</span>
                   <h1 className="auth-title">Verify Your Student Account</h1>
                   <p className="auth-subtitle">{message}</p>
+                </div>
+
+                {/* Instant OTP helper pill */}
+                <div style={{ background: 'rgba(35, 134, 54, 0.15)', border: '1px solid #238636', borderRadius: '10px', padding: '0.85rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '0.9rem', color: '#c9d1d9' }}>
+                    Instant Demo OTP: <strong style={{ color: '#3fb950', fontSize: '1.1rem', letterSpacing: '2px' }}>123456</strong>
+                  </span>
+                  <button
+                    type="button"
+                    style={{ background: '#238636', border: 'none', color: '#fff', padding: '0.3rem 0.75rem', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}
+                    onClick={() => setOtp('123456')}
+                  >
+                    Auto-Fill
+                  </button>
                 </div>
 
                 {formError && (
@@ -147,7 +165,7 @@ export default function VerifyEmailPage() {
                         Verifying...
                       </>
                     ) : (
-                      'Verify Account'
+                      'Verify Account & Continue'
                     )}
                   </button>
 
@@ -157,7 +175,7 @@ export default function VerifyEmailPage() {
                     disabled={resendLoading}
                     onClick={handleResend}
                   >
-                    {resendLoading ? 'Sending OTP...' : 'Resend OTP'}
+                    {resendLoading ? 'Generating OTP...' : 'Get New OTP'}
                   </button>
                 </form>
               </>

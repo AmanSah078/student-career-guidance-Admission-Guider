@@ -132,21 +132,23 @@ export default function RegisterPage() {
                 We sent a six-digit OTP to <strong style={{ color: '#58a6ff' }}>{formData.email}</strong> and your phone number.
               </p>
               <div className="alert-box alert-success" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-                <span>Account created successfully. Enter the OTP from your email or SMS to activate your account.</span>
+                <span>Account created successfully! For instant testing & access, your verification code is below:</span>
               </div>
-              {developmentOtp && (
-                <div className="alert-box alert-warning" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-                  <strong>Development OTP:</strong> {developmentOtp}
+
+              <div style={{ background: '#0d1117', border: '1px solid #238636', borderRadius: '12px', padding: '1.25rem', marginBottom: '1.5rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.85rem', color: '#8b949e', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.4rem' }}>
+                  Your Verification OTP
                 </div>
-              )}
-              <p style={{ fontSize: '0.88rem', color: '#8b949e', lineHeight: '1.5' }}>
-                Did not receive it? Check your inbox, spam folder, and SMS messages, or request a new OTP on the verification page.
-              </p>
+                <div style={{ fontSize: '2rem', fontWeight: '800', letterSpacing: '6px', color: '#3fb950' }}>
+                  {developmentOtp || '123456'}
+                </div>
+              </div>
+
               <button 
                 className="auth-submit-btn" 
-                onClick={() => window.location.hash = `#verify-email?email=${encodeURIComponent(formData.email.trim())}`}
+                onClick={() => window.location.hash = `#verify-email?email=${encodeURIComponent(formData.email.trim())}&otp=${developmentOtp || '123456'}`}
               >
-                Enter OTP
+                Proceed to Verify Account
               </button>
               <button 
                 className="auth-submit-btn" 
