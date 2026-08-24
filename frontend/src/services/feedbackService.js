@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080/api/feedback';
+import { API_BASE_URL, hasLiveBackend } from './apiConfig';
+
+const FEEDBACK_API_URL = hasLiveBackend ? `${API_BASE_URL}/feedback` : '';
 
 const FALLBACK_FEEDBACK = [
   {
@@ -29,17 +31,16 @@ const FALLBACK_FEEDBACK = [
  * @returns {Promise<Array>} List of approved feedback DTOs
  */
 export async function fetchPublicFeedback() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/public`);
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to fetch public feedback.');
+  if (FEEDBACK_API_URL) {
+    try {
+      const response = await fetch(`${FEEDBACK_API_URL}/public`);
+      const result = await response.json();
+      if (result && result.data && result.data.length > 0) return result.data;
+    } catch {
+      // Fallback
     }
-    if (result.data && result.data.length > 0) return result.data;
-    return FALLBACK_FEEDBACK;
-  } catch {
-    return FALLBACK_FEEDBACK;
   }
+  return FALLBACK_FEEDBACK;
 }
 
 /**
@@ -48,21 +49,25 @@ export async function fetchPublicFeedback() {
  * @returns {Promise<Object>} Submitted feedback DTO
  */
 export async function submitFeedback(feedbackData) {
-  try {
-    const response = await fetch(API_BASE_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(feedbackData),
-    });
+  if (FEEDBACK_API_URL) {
+    try {
+      const response = await fetch(FEEDBACK_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedbackData),
+      });
 
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to submit feedback.');
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to submit feedback.');
+      }
+      return result;
+    } catch {
+      // Fallback
     }
-    return result;
-  } catch {
-    return { success: true, message: 'Thank you for your valuable feedback!' };
   }
+  return { success: true, message: 'Thank you for your valuable feedback!' };
 }
+

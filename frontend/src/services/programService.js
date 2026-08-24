@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8080/api';
+import { API_BASE_URL, hasLiveBackend } from './apiConfig';
 
 const FALLBACK_PROGRAMS = [
   {
@@ -98,17 +98,16 @@ const FALLBACK_PROGRAMS = [
  * @param {string} educationPath - 'GRADUATION' | 'COURSES'
  */
 export async function fetchProgramsByPath(educationPath) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/programs?path=${encodeURIComponent(educationPath)}`);
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to load programs catalog.');
+  if (hasLiveBackend) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/programs?path=${encodeURIComponent(educationPath)}`);
+      const result = await response.json();
+      if (result && result.data && result.data.length > 0) return result.data;
+    } catch {
+      // Fall through to instant fallback catalog
     }
-    if (result.data && result.data.length > 0) return result.data;
-    return FALLBACK_PROGRAMS.filter((p) => p.educationPath === educationPath);
-  } catch {
-    return FALLBACK_PROGRAMS.filter((p) => p.educationPath === educationPath);
   }
+  return FALLBACK_PROGRAMS.filter((p) => p.educationPath === educationPath);
 }
 
 /**
@@ -116,17 +115,17 @@ export async function fetchProgramsByPath(educationPath) {
  * @param {number|string} id 
  */
 export async function fetchProgramById(id) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/programs/${id}`);
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to load program details.');
+  if (hasLiveBackend) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/programs/${id}`);
+      const result = await response.json();
+      if (result && result.data) return result.data;
+    } catch {
+      // Fall through
     }
-    return result.data;
-  } catch {
-    const matched = FALLBACK_PROGRAMS.find((p) => String(p.id) === String(id) || p.code.toLowerCase() === String(id).toLowerCase());
-    return matched || FALLBACK_PROGRAMS[0];
   }
+  const matched = FALLBACK_PROGRAMS.find((p) => String(p.id) === String(id) || p.code.toLowerCase() === String(id).toLowerCase());
+  return matched || FALLBACK_PROGRAMS[0];
 }
 
 /**
@@ -135,21 +134,24 @@ export async function fetchProgramById(id) {
  * @param {number} programId 
  */
 export async function selectStudentProgram(studentId, programId) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/students/select-program`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ studentId, programId }),
-    });
+  if (hasLiveBackend) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/students/select-program`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ studentId, programId }),
+      });
 
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to save program selection.');
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to save program selection.');
+      }
+      return result;
+    } catch {
+      // Fallback
     }
-    return result;
-  } catch {
-    return { success: true, message: 'Program selection saved successfully.' };
   }
+  return { success: true, message: 'Program selection saved successfully.' };
 }

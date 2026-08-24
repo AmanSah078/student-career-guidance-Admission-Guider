@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080/api/counsellors';
+import { API_BASE_URL, hasLiveBackend } from './apiConfig';
+
+const COUNSELLORS_API_URL = hasLiveBackend ? `${API_BASE_URL}/counsellors` : '';
 
 const OFFICIAL_ADVISORS = [
   {
@@ -32,17 +34,17 @@ const OFFICIAL_ADVISORS = [
  * @param {number|string} programId 
  */
 export async function fetchCounsellors(programId = null) {
-  try {
-    const url = programId ? `${API_BASE_URL}?programId=${programId}` : API_BASE_URL;
-    const response = await fetch(url);
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to load admission team profiles.');
+  if (COUNSELLORS_API_URL) {
+    try {
+      const url = programId ? `${COUNSELLORS_API_URL}?programId=${programId}` : COUNSELLORS_API_URL;
+      const response = await fetch(url);
+      const result = await response.json();
+      if (result && result.data && result.data.length > 0) return result.data;
+    } catch {
+      // Fallback
     }
-    return result.data && result.data.length > 0 ? result.data : OFFICIAL_ADVISORS;
-  } catch {
-    return OFFICIAL_ADVISORS;
   }
+  return OFFICIAL_ADVISORS;
 }
 
 /**
@@ -50,16 +52,17 @@ export async function fetchCounsellors(programId = null) {
  * @param {number|string} id 
  */
 export async function fetchCounsellorById(id) {
-  try {
-    const response = await fetch(`${API_BASE_URL}/${id}`);
-    const result = await response.json();
-    if (!response.ok) {
-      throw new Error(result.message || 'Failed to load counsellor profile.');
+  if (COUNSELLORS_API_URL) {
+    try {
+      const response = await fetch(`${COUNSELLORS_API_URL}/${id}`);
+      const result = await response.json();
+      if (result && result.data) return result.data;
+    } catch {
+      // Fallback
     }
-    return result.data;
-  } catch {
-    const matched = OFFICIAL_ADVISORS.find((a) => String(a.id) === String(id));
-    return matched || OFFICIAL_ADVISORS[0];
   }
+  const matched = OFFICIAL_ADVISORS.find((a) => String(a.id) === String(id));
+  return matched || OFFICIAL_ADVISORS[0];
 }
+
 
