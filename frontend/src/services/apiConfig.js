@@ -7,6 +7,9 @@ export const isLocalEnvironment =
 
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  (isLocalEnvironment ? 'http://localhost:8080/api' : '');
+  (isLocalEnvironment
+    ? 'http://localhost:8080/api'
+    : 'https://student-career-guidance-admission-guider.onrender.com/api');
 
 export const hasLiveBackend = Boolean(API_BASE_URL);
+
