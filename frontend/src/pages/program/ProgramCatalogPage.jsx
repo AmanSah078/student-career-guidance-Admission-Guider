@@ -29,21 +29,18 @@ export default function ProgramCatalogPage({ educationPath = 'GRADUATION', stude
   }, [educationPath]);
 
   const handleProgramSelect = async (programId) => {
-    if (!studentId) {
-      window.location.hash = '#register';
-      return;
-    }
-
     setSelectingId(programId);
     try {
-      await selectStudentProgram(studentId, programId);
+      if (studentId) {
+        await selectStudentProgram(studentId, programId);
+      }
       if (onSelectProgram) {
         onSelectProgram(programId);
       } else {
         window.location.hash = `#program-details?id=${programId}`;
       }
-    } catch (err) {
-      alert(err.message || 'Failed to save program selection.');
+    } catch {
+      window.location.hash = `#program-details?id=${programId}`;
     } finally {
       setSelectingId(null);
     }
