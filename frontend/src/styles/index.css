@@ -1,0 +1,86 @@
+@import './variables.css';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-light-bg);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Utility Containers */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* SkillPilot Utility Classes */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-badge {
+  background: var(--gradient-primary);
+  color: #07080d;
+  font-weight: 700;
+}
+
+.btn-skillpilot {
+  background: var(--gradient-primary);
+  color: #07080d;
+  font-weight: 700;
+  border: none;
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-skillpilot:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.skillpilot-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1rem;
+  }
+}

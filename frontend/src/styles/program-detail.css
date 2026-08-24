@@ -1,0 +1,273 @@
+/* Premium Program Detail Styling */
+
+.detail-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-light-bg);
+  color: var(--color-text-main);
+}
+
+.detail-container {
+  flex: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  width: 100%;
+}
+
+/* Hero Section */
+.detail-hero {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(16px);
+}
+
+.detail-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.detail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  background: var(--color-badge-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-badge-text);
+}
+
+.back-link-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s ease;
+}
+
+.back-link-btn:hover {
+  color: var(--color-primary);
+}
+
+.detail-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #ffffff 0%, #c9d1d9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.detail-short-desc {
+  font-size: 1.05rem;
+  color: #8b949e;
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
+  max-width: 800px;
+}
+
+/* Quick Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: rgba(13, 17, 23, 0.8);
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 1.1rem;
+  text-align: center;
+}
+
+.metric-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.metric-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f0f6fc;
+}
+
+/* Section Cards */
+.detail-section-card {
+  background: rgba(22, 27, 34, 0.85);
+  border: 1px solid rgba(48, 54, 61, 0.8);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.section-heading {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f0f6fc;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.section-text {
+  font-size: 0.98rem;
+  color: #c9d1d9;
+  line-height: 1.7;
+}
+
+/* What You Will Study Pills */
+.study-pills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.study-pill {
+  padding: 0.5rem 1rem;
+  background: rgba(88, 166, 255, 0.08);
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #58a6ff;
+  font-weight: 500;
+}
+
+/* Admission Process Steps */
+.admission-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.step-card {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  position: relative;
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #238636;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem auto;
+}
+
+.step-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f0f6fc;
+  line-height: 1.4;
+}
+
+/* Primary CTA Banner */
+.cta-banner-card {
+  background: linear-gradient(135deg, rgba(31, 107, 235, 0.2) 0%, rgba(35, 134, 54, 0.2) 100%);
+  border: 1px solid rgba(88, 166, 255, 0.4);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  margin-top: 2.5rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.cta-banner-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.cta-banner-subtitle {
+  color: #c9d1d9;
+  font-size: 1rem;
+  margin-bottom: 1.75rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.admission-btn-primary {
+  padding: 1rem 2.25rem;
+  background: linear-gradient(135deg, #1f6beb 0%, #238636 100%);
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(31, 107, 235, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admission-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(31, 107, 235, 0.55);
+}
+
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .admission-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .detail-title {
+    font-size: 1.85rem;
+  }
+  .detail-hero {
+    padding: 1.75rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .admission-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
